@@ -8,11 +8,11 @@
  */
 
 / {
-	/* 4.4 vendor camera framework placeholder (disabled in 6.4). */
+	/* 4.4 vendor camera framework placeholder for staged 6.4 bring-up. */
 	camera_vendor: camera@1a040000 {
 		compatible = "mediatek,imgsensor";
 		reg = <0 0x1a040000 0 0x1000>;
-		status = "disabled";
+		status = "okay";
 		pinctrl-names = "default",
 				"cam0-rst-low", "cam0-rst-high",
 				"cam0-pdn-low", "cam0-pdn-high",
@@ -29,99 +29,99 @@
 		pinctrl-8 = <&camera_pins_cam1_pnd_1>;
 	};
 
-	/* 4.4 modem register window placeholders (disabled in 6.4). */
+	/* 4.4 modem register windows enabled for scaffold probing. */
 	modem_confg: modem@87000000 {
 		compatible = "mediatek,modem_confg";
 		reg = <0 0x87000000 0 0x1000>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	modem_topsm: modem@87010000 {
 		compatible = "mediatek,modem_topsm";
 		reg = <0 0x87010000 0 0x1000>;
-		status = "disabled";
+		status = "okay";
 	};
 
-	/* 4.4 modem control path building blocks (kept disabled for safe bring-up). */
+	/* 4.4 modem control path building blocks enabled for scaffold probing. */
 	apcldmaout_ao: apcldmaout-ao@10014400 {
 		compatible = "mediatek,apcldmaout_ao";
 		reg = <0 0x10014400 0 0x1000>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	apcldmamisc_ao: apcldmamisc-ao@10014800 {
 		compatible = "mediatek,apcldmamisc_ao";
 		reg = <0 0x10014800 0 0x1000>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	ap_ccif0: ap-ccif0@10209000 {
 		compatible = "mediatek,ap_ccif0";
 		reg = <0 0x10209000 0 0x1000>;
 		interrupts = <GIC_SPI 151 IRQ_TYPE_LEVEL_LOW>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	md_ccif0: md-ccif0@1020a000 {
 		compatible = "mediatek,md_ccif0";
 		reg = <0 0x1020a000 0 0x1000>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	ap_ccif1: ap-ccif1@1020b000 {
 		compatible = "mediatek,ap_ccif1";
 		reg = <0 0x1020b000 0 0x1000>;
 		interrupts = <GIC_SPI 153 IRQ_TYPE_LEVEL_LOW>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	md_ccif1: md-ccif1@1020c000 {
 		compatible = "mediatek,md_ccif1";
 		reg = <0 0x1020c000 0 0x1000>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	apcldmain: apcldmain@1021b000 {
 		compatible = "mediatek,apcldmain";
 		reg = <0 0x1021b000 0 0x1000>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	apcldmaout: apcldmaout@1021b400 {
 		compatible = "mediatek,apcldmaout";
 		reg = <0 0x1021b400 0 0x1000>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	apcldmamisc: apcldmamisc@1021b800 {
 		compatible = "mediatek,apcldmamisc";
 		reg = <0 0x1021b800 0 0x1000>;
 		interrupts = <GIC_SPI 173 IRQ_TYPE_LEVEL_HIGH>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	mdcldmain: mdcldmain@1021c000 {
 		compatible = "mediatek,mdcldmain";
 		reg = <0 0x1021c000 0 0x1000>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	mdcldmaout: mdcldmaout@1021c400 {
 		compatible = "mediatek,mdcldmaout";
 		reg = <0 0x1021c400 0 0x1000>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	mdcldmamisc: mdcldmamisc@1021c800 {
 		compatible = "mediatek,mdcldmamisc";
 		reg = <0 0x1021c800 0 0x1000>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	infra_md_cfg: infra-md@1021d000 {
 		compatible = "mediatek,infra_md_cfg";
 		reg = <0 0x1021d000 0 0x1000>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	mdcldma: mdcldma@10014000 {
@@ -136,7 +136,7 @@
 			     <GIC_SPI 283 IRQ_TYPE_EDGE_FALLING>;
 		mediatek,md_id = <0>;
 		mediatek,cldma_capability = <6>;
-		status = "disabled";
+		status = "okay";
 	};
 };
 
