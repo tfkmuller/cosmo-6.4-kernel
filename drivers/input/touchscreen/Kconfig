@@ -1295,6 +1295,16 @@ config TOUCHSCREEN_SX8654
 	  To compile this driver as a module, choose M here: the
 	  module will be called sx8654.
 
+config TOUCHSCREEN_SOLOMON_SSD20XX
+	tristate "Solomon SSD20xx touchscreen"
+	depends on I2C
+	help
+	  Say Y here to enable support for Solomon SSD20xx touch
+	  controllers used on some MediaTek-based devices.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called solomon_ssd20xx.
+
 config TOUCHSCREEN_TPS6507X
 	tristate "TPS6507x based touchscreens"
 	depends on I2C
