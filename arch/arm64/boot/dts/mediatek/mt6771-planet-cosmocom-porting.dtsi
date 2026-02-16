@@ -1,0 +1,143 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Phase 1 Cosmo bring-up scaffold.
+ *
+ * This file imports board wiring clues from the 4.4 vendor tree and keeps all
+ * non-mainline blocks disabled by default. It provides anchor nodes for
+ * incremental porting of touch, camera, and modem/cellular support.
+ */
+
+/ {
+	/* 4.4 vendor camera framework placeholder (disabled in 6.4). */
+	camera_vendor: camera@1a040000 {
+		compatible = "mediatek,imgsensor";
+		reg = <0 0x1a040000 0 0x1000>;
+		status = "disabled";
+		pinctrl-names = "default",
+				"cam0-rst-low", "cam0-rst-high",
+				"cam0-pdn-low", "cam0-pdn-high",
+				"cam1-rst-low", "cam1-rst-high",
+				"cam1-pdn-low", "cam1-pdn-high";
+		pinctrl-0 = <&camera_pins_default>;
+		pinctrl-1 = <&camera_pins_cam0_rst_0>;
+		pinctrl-2 = <&camera_pins_cam0_rst_1>;
+		pinctrl-3 = <&camera_pins_cam0_pnd_0>;
+		pinctrl-4 = <&camera_pins_cam0_pnd_1>;
+		pinctrl-5 = <&camera_pins_cam1_rst_0>;
+		pinctrl-6 = <&camera_pins_cam1_rst_1>;
+		pinctrl-7 = <&camera_pins_cam1_pnd_0>;
+		pinctrl-8 = <&camera_pins_cam1_pnd_1>;
+	};
+
+	/* 4.4 modem register window placeholders (disabled in 6.4). */
+	modem_confg: modem@87000000 {
+		compatible = "mediatek,modem_confg";
+		reg = <0 0x87000000 0 0x1000>;
+		status = "disabled";
+	};
+
+	modem_topsm: modem@87010000 {
+		compatible = "mediatek,modem_topsm";
+		reg = <0 0x87010000 0 0x1000>;
+		status = "disabled";
+	};
+};
+
+/*
+ * 4.4 used an SoC-local touch abstraction + vendor I2C driver.
+ * Keep disabled until the exact panel/touch IC and IRQ polarity are validated.
+ */
+&i2c2 {
+	touchscreen_vendor: touchscreen@53 {
+		compatible = "mediatek,solomon_touch";
+		reg = <0x53>;
+		interrupt-parent = <&pio>;
+		interrupts = <157 IRQ_TYPE_LEVEL_LOW>;
+		reset-gpios = <&pio 156 GPIO_ACTIVE_LOW>;
+		status = "disabled";
+	};
+};
+
+/* Camera and touch GPIO lines from the vendor board file. */
+&pio {
+	touch_pins_int: touch-int {
+		pins-touch-int {
+			pinmux = <PINMUX_GPIO157__FUNC_GPIO157>;
+			input-enable;
+			bias-pull-up;
+		};
+	};
+
+	touch_pins_rst_low: touch-rst-low {
+		pins-touch-rst {
+			pinmux = <PINMUX_GPIO156__FUNC_GPIO156>;
+			output-low;
+		};
+	};
+
+	touch_pins_rst_high: touch-rst-high {
+		pins-touch-rst {
+			pinmux = <PINMUX_GPIO156__FUNC_GPIO156>;
+			output-high;
+		};
+	};
+
+	camera_pins_cam0_rst_0: cam0-rst-low {
+		pins-cam0-rst {
+			pinmux = <PINMUX_GPIO101__FUNC_GPIO101>;
+			output-low;
+		};
+	};
+
+	camera_pins_cam0_rst_1: cam0-rst-high {
+		pins-cam0-rst {
+			pinmux = <PINMUX_GPIO101__FUNC_GPIO101>;
+			output-high;
+		};
+	};
+
+	camera_pins_cam0_pnd_0: cam0-pdn-low {
+		pins-cam0-pdn {
+			pinmux = <PINMUX_GPIO97__FUNC_GPIO97>;
+			output-low;
+		};
+	};
+
+	camera_pins_cam0_pnd_1: cam0-pdn-high {
+		pins-cam0-pdn {
+			pinmux = <PINMUX_GPIO97__FUNC_GPIO97>;
+			output-high;
+		};
+	};
+
+	camera_pins_cam1_rst_0: cam1-rst-low {
+		pins-cam1-rst {
+			pinmux = <PINMUX_GPIO102__FUNC_GPIO102>;
+			output-low;
+		};
+	};
+
+	camera_pins_cam1_rst_1: cam1-rst-high {
+		pins-cam1-rst {
+			pinmux = <PINMUX_GPIO102__FUNC_GPIO102>;
+			output-high;
+		};
+	};
+
+	camera_pins_cam1_pnd_0: cam1-pdn-low {
+		pins-cam1-pdn {
+			pinmux = <PINMUX_GPIO98__FUNC_GPIO98>;
+			output-low;
+		};
+	};
+
+	camera_pins_cam1_pnd_1: cam1-pdn-high {
+		pins-cam1-pdn {
+			pinmux = <PINMUX_GPIO98__FUNC_GPIO98>;
+			output-high;
+		};
+	};
+
+	camera_pins_default: camera-default {
+	};
+};

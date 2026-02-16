@@ -8,6 +8,7 @@
 #include <dt-bindings/usb/pd.h>
 #include "mt6771.dtsi"
 #include "mt6358.dtsi"
+#include "mt6771-planet-cosmocom-porting.dtsi"
 
 / {
 	model = "Planet Computers Cosmo Communicator (planet-cosmocom)";
