@@ -43,10 +43,7 @@
 	};
 };
 
-/*
- * 4.4 used an SoC-local touch abstraction + vendor I2C driver.
- * Keep disabled until the exact panel/touch IC and IRQ polarity are validated.
- */
+/* 4.4 used an SoC-local touch abstraction + vendor I2C driver. */
 &i2c2 {
 	touchscreen_vendor: touchscreen@53 {
 		compatible = "mediatek,solomon_touch";
