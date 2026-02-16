@@ -1,0 +1,28 @@
+# SPDX-License-Identifier: GPL-2.0
+
+config MTK_CCCI_DEVICES
+	bool "MediaTek CCCI/ECCCI modem support (vendor compatibility, staging)"
+	depends on ARM64 && ARCH_MEDIATEK
+	help
+	  Enable the MediaTek vendor-style CCCI/ECCCI modem stack as a staging
+	  compatibility layer. This is intended for device bring-up and is not
+	  mainline-quality.
+
+if MTK_CCCI_DEVICES
+
+config MTK_ECCCI_DRIVER
+	tristate "MediaTek ECCCI modem interface (stub, staged port)"
+	default n
+	help
+	  Build a stub ECCCI driver module as scaffolding for porting the vendor
+	  ECCCI/CLDMA modem stack. This does not provide working cellular yet.
+
+config MTK_NET_CCMNI
+	tristate "MediaTek CCMNI modem netdev (stub, staged port)"
+	default n
+	help
+	  Build a stub CCMNI netdev module as scaffolding for porting the vendor
+	  CCMNI driver. This does not provide working cellular data yet.
+
+endif # MTK_CCCI_DEVICES
+

@@ -1,0 +1,8 @@
+# SPDX-License-Identifier: GPL-2.0
+
+menu "MediaTek staging drivers"
+
+source "drivers/staging/mediatek/ccci/Kconfig"
+
+endmenu
+
