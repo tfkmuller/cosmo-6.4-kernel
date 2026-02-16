@@ -27,6 +27,28 @@ After booting the kernel on device:
    sudo mount -t debugfs none /sys/kernel/debug || true
    sudo sh scripts/cosmo-hw-selfcheck.sh
 
+Non-destructive test boot (kexec)
+---------------------------------
+
+You can test the new kernel without flashing partitions:
+
+.. code-block:: sh
+
+   sudo apt-get install -y kexec-tools
+   sudo sh scripts/test-kexec-cosmo.sh
+
+The command above only loads the kernel. To jump into it:
+
+.. code-block:: sh
+
+   sudo systemctl kexec
+
+Or one-shot load+switch:
+
+.. code-block:: sh
+
+   sudo sh scripts/test-kexec-cosmo.sh --exec
+
 Expected debug output
 ---------------------
 
