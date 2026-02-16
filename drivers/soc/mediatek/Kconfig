@@ -91,4 +91,15 @@ config MTK_SVS
 	  chip process corner, temperatures and other factors. Then DVFS
 	  driver could apply SVS bank voltage to PMIC/Buck.
 
+config MTK_COSMO_MODEM_SCAFFOLD
+	tristate "Cosmo Communicator modem scaffold (MT6771)"
+	depends on ARCH_MEDIATEK || COMPILE_TEST
+	depends on OF
+	help
+	  Build a minimal bring-up scaffold for MT6771 modem/CCIF/CLDMA
+	  blocks used by the Cosmo Communicator porting device tree.
+	  This driver is intentionally lightweight and does not implement
+	  modem data-path handling; it only validates DT resource wiring
+	  during staged bring-up.
+
 endmenu
