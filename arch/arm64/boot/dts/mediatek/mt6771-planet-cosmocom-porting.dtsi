@@ -41,6 +41,103 @@
 		reg = <0 0x87010000 0 0x1000>;
 		status = "disabled";
 	};
+
+	/* 4.4 modem control path building blocks (kept disabled for safe bring-up). */
+	apcldmaout_ao: apcldmaout-ao@10014400 {
+		compatible = "mediatek,apcldmaout_ao";
+		reg = <0 0x10014400 0 0x1000>;
+		status = "disabled";
+	};
+
+	apcldmamisc_ao: apcldmamisc-ao@10014800 {
+		compatible = "mediatek,apcldmamisc_ao";
+		reg = <0 0x10014800 0 0x1000>;
+		status = "disabled";
+	};
+
+	ap_ccif0: ap-ccif0@10209000 {
+		compatible = "mediatek,ap_ccif0";
+		reg = <0 0x10209000 0 0x1000>;
+		interrupts = <GIC_SPI 151 IRQ_TYPE_LEVEL_LOW>;
+		status = "disabled";
+	};
+
+	md_ccif0: md-ccif0@1020a000 {
+		compatible = "mediatek,md_ccif0";
+		reg = <0 0x1020a000 0 0x1000>;
+		status = "disabled";
+	};
+
+	ap_ccif1: ap-ccif1@1020b000 {
+		compatible = "mediatek,ap_ccif1";
+		reg = <0 0x1020b000 0 0x1000>;
+		interrupts = <GIC_SPI 153 IRQ_TYPE_LEVEL_LOW>;
+		status = "disabled";
+	};
+
+	md_ccif1: md-ccif1@1020c000 {
+		compatible = "mediatek,md_ccif1";
+		reg = <0 0x1020c000 0 0x1000>;
+		status = "disabled";
+	};
+
+	apcldmain: apcldmain@1021b000 {
+		compatible = "mediatek,apcldmain";
+		reg = <0 0x1021b000 0 0x1000>;
+		status = "disabled";
+	};
+
+	apcldmaout: apcldmaout@1021b400 {
+		compatible = "mediatek,apcldmaout";
+		reg = <0 0x1021b400 0 0x1000>;
+		status = "disabled";
+	};
+
+	apcldmamisc: apcldmamisc@1021b800 {
+		compatible = "mediatek,apcldmamisc";
+		reg = <0 0x1021b800 0 0x1000>;
+		interrupts = <GIC_SPI 173 IRQ_TYPE_LEVEL_HIGH>;
+		status = "disabled";
+	};
+
+	mdcldmain: mdcldmain@1021c000 {
+		compatible = "mediatek,mdcldmain";
+		reg = <0 0x1021c000 0 0x1000>;
+		status = "disabled";
+	};
+
+	mdcldmaout: mdcldmaout@1021c400 {
+		compatible = "mediatek,mdcldmaout";
+		reg = <0 0x1021c400 0 0x1000>;
+		status = "disabled";
+	};
+
+	mdcldmamisc: mdcldmamisc@1021c800 {
+		compatible = "mediatek,mdcldmamisc";
+		reg = <0 0x1021c800 0 0x1000>;
+		status = "disabled";
+	};
+
+	infra_md_cfg: infra-md@1021d000 {
+		compatible = "mediatek,infra_md_cfg";
+		reg = <0 0x1021d000 0 0x1000>;
+		status = "disabled";
+	};
+
+	mdcldma: mdcldma@10014000 {
+		compatible = "mediatek,mdcldma";
+		reg = <0 0x10014000 0 0x1000>,
+		      <0 0x1021b000 0 0x1000>,
+		      <0 0x10209000 0 0x1000>,
+		      <0 0x1020a000 0 0x1000>;
+		interrupts = <GIC_SPI 173 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 151 IRQ_TYPE_LEVEL_LOW>,
+			     <GIC_SPI 152 IRQ_TYPE_LEVEL_LOW>,
+			     <GIC_SPI 283 IRQ_TYPE_EDGE_FALLING>;
+		mediatek,md_id = <0>;
+		mediatek,cldma_capability = <6>;
+		status = "disabled";
+	};
 };
 
 /* 4.4 used an SoC-local touch abstraction + vendor I2C driver. */
