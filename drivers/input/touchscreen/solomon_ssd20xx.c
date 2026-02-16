@@ -99,6 +99,15 @@ static int ssd20xx_write_u16(struct ssd20xx *ts, u16 reg, u16 val)
 	return 0;
 }
 
+static void ssd20xx_clear_irq(struct ssd20xx *ts)
+{
+	int ret;
+
+	ret = ssd20xx_write_u16(ts, SSD20XX_REG_INT_CLEAR, 0x0001);
+	if (ret)
+		dev_dbg(&ts->client->dev, "irq clear failed: %d\n", ret);
+}
+
 static void ssd20xx_release_slots(struct ssd20xx *ts)
 {
 	int slot;
@@ -130,7 +139,7 @@ static irqreturn_t ssd20xx_irq_thread(int irq, void *dev_id)
 	ret = ssd20xx_read_u16(ts, SSD20XX_REG_STATUS_LENGTH, &point_info);
 	if (ret) {
 		dev_dbg(&ts->client->dev, "status read failed: %d\n", ret);
-		return IRQ_HANDLED;
+		goto clear_irq;
 	}
 
 	len = point_info & 0xff;
@@ -151,7 +160,7 @@ static irqreturn_t ssd20xx_irq_thread(int irq, void *dev_id)
 	ret = ssd20xx_read_block(ts, SSD20XX_REG_POINT_DATA, raw, len);
 	if (ret) {
 		dev_dbg(&ts->client->dev, "point read failed: %d\n", ret);
-		return IRQ_HANDLED;
+		goto clear_irq;
 	}
 
 	bitmap_zero(current_slots, SSD20XX_MAX_SLOTS);
@@ -176,6 +185,8 @@ static irqreturn_t ssd20xx_irq_thread(int irq, void *dev_id)
 			x = raw_x;
 			y = raw_y;
 		}
+		x = clamp_t(int, x, 0, input_abs_get_max(ts->input, ABS_MT_POSITION_X));
+		y = clamp_t(int, y, 0, input_abs_get_max(ts->input, ABS_MT_POSITION_Y));
 
 		input_mt_slot(ts->input, id);
 		input_mt_report_slot_state(ts->input, MT_TOOL_FINGER, weight > 0);
@@ -199,7 +210,7 @@ static irqreturn_t ssd20xx_irq_thread(int irq, void *dev_id)
 	input_sync(ts->input);
 
 clear_irq:
-	ssd20xx_write_u16(ts, SSD20XX_REG_INT_CLEAR, 0x0001);
+	ssd20xx_clear_irq(ts);
 	return IRQ_HANDLED;
 }
 
@@ -225,15 +236,16 @@ static int ssd20xx_probe(struct i2c_client *client)
 	ts->no_legacy_rotation = device_property_read_bool(dev,
 							   "solomon,no-legacy-rotation");
 
-	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
 	if (IS_ERR(ts->reset_gpio))
 		return dev_err_probe(dev, PTR_ERR(ts->reset_gpio),
 				     "failed to get reset gpio\n");
 
 	if (ts->reset_gpio) {
-		gpiod_set_value_cansleep(ts->reset_gpio, 0);
-		usleep_range(5000, 7000);
+		/* Assert reset then release, honoring GPIO_ACTIVE_LOW from DT. */
 		gpiod_set_value_cansleep(ts->reset_gpio, 1);
+		usleep_range(5000, 7000);
+		gpiod_set_value_cansleep(ts->reset_gpio, 0);
 		msleep(50);
 	}
 
